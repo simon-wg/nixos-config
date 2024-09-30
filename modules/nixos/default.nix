@@ -3,5 +3,6 @@
 {
   # List your module files here
   # my-module = import ./my-module.nix;
+  general = import ./general.nix;
   programming = import ./programming.nix;
 }

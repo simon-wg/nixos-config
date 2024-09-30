@@ -1,26 +1,30 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-
-{ inputs, outputs, lib, config, pkgs, ... }:
-
 {
-  imports =
-    [
-      # If you want to use modules your own flake exports (from modules/nixos):
-      outputs.nixosModules.programming
+  inputs,
+  outputs,
+  lib,
+  config,
+  pkgs,
+  ...
+}: {
+  imports = [
+    # If you want to use modules your own flake exports (from modules/nixos):
+    outputs.nixosModules.programming
+    outputs.nixosModules.general
 
-      # Or modules from other flakes (such as nixos-hardware):
-      # inputs.hardware.nixosModules.common-cpu-amd
-      # inputs.hardware.nixosModules.common-ssd
+    # Or modules from other flakes (such as nixos-hardware):
+    # inputs.hardware.nixosModules.common-cpu-amd
+    # inputs.hardware.nixosModules.common-ssd
 
-      # You can also split up your configuration and import pieces of it here:
-      # ./users.nix
+    # You can also split up your configuration and import pieces of it here:
+    # ./users.nix
 
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-    ];
-  
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+  ];
+
   nixpkgs = {
     # You can add overlays here
     overlays = [
@@ -64,8 +68,6 @@
     registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
     nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
   };
-
-  
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -138,9 +140,9 @@
   users.users.simon-wg = {
     isNormalUser = true;
     description = "Simon Westlin Green";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = ["networkmanager" "wheel"];
     packages = with pkgs; [
-    #  thunderbird
+      #  thunderbird
     ];
   };
 
@@ -151,8 +153,8 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    git  
-#  wget
+    git
+    #  wget
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -181,5 +183,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.05"; # Did you read the comment?
-
 }
